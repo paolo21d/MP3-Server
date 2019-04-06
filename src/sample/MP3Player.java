@@ -4,11 +4,13 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.FileChooser;
+import javafx.util.Duration;
 
 import java.io.File;
 
 public class MP3Player {
     private String path="C:\\Users\\paolo\\Desktop\\Java Start\\MP3 V2\\src\\sample\\TS22.mp3";
+    Duration duration=null;
     private Media media;
     private MediaPlayer mediaPlayer;
     private MediaView mediaView;
@@ -20,7 +22,10 @@ public class MP3Player {
             System.out.println("Path is null");
             return;
         }
+
         if(mediaPlayer!=null){
+            MediaPlayer.Status status = mediaPlayer.getStatus();
+            System.out.println(status);
             mediaPlayer.pause();
         }
         played=true;
@@ -30,6 +35,9 @@ public class MP3Player {
         //mediaPlayer.play();
         mediaView = new MediaView(mediaPlayer);
         mediaPlayer.play();
+
+        duration = mediaPlayer.getMedia().getDuration();
+        path = String.valueOf(duration);
     }
     boolean pause(){
         if(played && !paused) {
@@ -40,6 +48,9 @@ public class MP3Player {
             paused=false;
         }
         return paused;
+    }
+    void reload(){
+        mediaPlayer.seek(mediaPlayer.getStartTime());
     }
     void setPath(){
         FileChooser fc = new FileChooser();
